@@ -7,29 +7,28 @@ let cuotasAPagar = '';
 formCuotas.addEventListener('submit', (event) => {
 	event.preventDefault();
 	aPagar = cuantoPagar.value;
-	// calcularInteres();
 	procesarDatos(cuantoInteres.value, cuantasCuotas.value);
+	formCuotas.reset();
 });
 
-let procesarDatos = (interes, cuotas) => {
+const procesarDatos = (interes, cuotas) => {
 	interes = calcularInteres(interes);
 	cuotasAPagar = cuotas;
-	calcularTotalAPagar();
 	totalAPagar = calcularTotalAPagar(aPagar, interes);
 	let valorCuota = calcularCuotas(totalAPagar, cuotasAPagar);
 	// Para que precio se aproxime al numero entero superior
 	insertarDatos(formatearMoneda(Math.ceil(valorCuota)), cuotasAPagar);
 };
 
-let insertarDatos = (montoCuotas, cantidadCuotas) => {
-	resultadoAPagar.innerText = `¡No te preocupes! Puedes pagarlo en ${cantidadCuotas} cuotas de ${montoCuotas}`;
+const insertarDatos = (montoCuotas, cantidadCuotas) => {
+	resultadoAPagar.innerHTML = `¡No te preocupes! Puedes pagarlo en <span class="font-bold text-6xl">${cantidadCuotas}</span> cuotas de <span class="font-bold text-6xl">${montoCuotas}</span>`;
 };
-let calcularInteres = (porcentaje) => porcentaje / 100 + 1;
-let calcularTotalAPagar = (monto, interesFormateado) => {
+const calcularInteres = (porcentaje) => porcentaje / 100 + 1;
+const calcularTotalAPagar = (monto, interesFormateado) => {
 	return monto * interesFormateado;
 };
-let calcularCuotas = (total, cuotas) => {
+const calcularCuotas = (total, cuotas) => {
 	return total / cuotas;
 };
-let formatearMoneda = (num) =>
+const formatearMoneda = (num) =>
 	num.toLocaleString('es-CL', { style: 'currency', currency: 'clp' });
